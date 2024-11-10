@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .timer {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #countdown {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer">
+        <input type="number" id="minutes" placeholder="Minutes">
+        <input type="number" id="seconds" placeholder="Seconds">
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="resetTimer()">Reset</button>
+        <div id="countdown">00:00</div>
+    </div>
+    <script>
+        let countdown;
+        let timeLeft;
+
+        function startTimer() {
+            const minutes = document.getElementById('minutes').value;
+            const seconds = document.getElementById('seconds').value;
+            timeLeft = parseInt(minutes) * 60 + parseInt(seconds);
+
+            if (isNaN(timeLeft) || timeLeft <= 0) {
+                alert('Please enter a valid time.');
+                return;
+            }
+
+            countdown = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById('countdown').innerHTML = "Time's up!";
+                    return;
+                }
+
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('countdown').innerHTML = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(countdown);
+        }
+
+        function resetTimer() {
+            clearInterval(countdown);
+            document.getElementById('countdown').innerHTML = "00:00";
+        }
+    </script>
+</body>
+</html>
